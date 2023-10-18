@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DemoF23_CModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DemoF23_CModelStoreContainer">
+    <EntitySet Name="Courses" EntityType="DemoF23_CModel.Store.Courses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CourseStudents" EntityType="DemoF23_CModel.Store.CourseStudents" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Departments" EntityType="DemoF23_CModel.Store.Departments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Students" EntityType="DemoF23_CModel.Store.Students" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Courses_Departments" Association="DemoF23_CModel.Store.FK_Courses_Departments">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Courses" EntitySet="Courses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseStudents_Courses" Association="DemoF23_CModel.Store.FK_CourseStudents_Courses">
+      <End Role="Courses" EntitySet="Courses" />
+      <End Role="CourseStudents" EntitySet="CourseStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CourseStudents_Students" Association="DemoF23_CModel.Store.FK_CourseStudents_Students">
+      <End Role="Students" EntitySet="Students" />
+      <End Role="CourseStudents" EntitySet="CourseStudents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Students_Departments" Association="DemoF23_CModel.Store.FK_Students_Departments">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Students" EntitySet="Students" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Courses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="DeptId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CourseStudents">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CId" Type="int" Nullable="false" />
+    <Property Name="StId" Type="int" Nullable="false" />
+    <Property Name="EnrollTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Departments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Students">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Cgpa" Type="float" Nullable="true" />
+    <Property Name="DeptId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Courses_Departments">
+    <End Role="Departments" Type="DemoF23_CModel.Store.Departments" Multiplicity="1" />
+    <End Role="Courses" Type="DemoF23_CModel.Store.Courses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Courses">
+        <PropertyRef Name="DeptId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseStudents_Courses">
+    <End Role="Courses" Type="DemoF23_CModel.Store.Courses" Multiplicity="1" />
+    <End Role="CourseStudents" Type="DemoF23_CModel.Store.CourseStudents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Courses">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CourseStudents">
+        <PropertyRef Name="CId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CourseStudents_Students">
+    <End Role="Students" Type="DemoF23_CModel.Store.Students" Multiplicity="1" />
+    <End Role="CourseStudents" Type="DemoF23_CModel.Store.CourseStudents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Students">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CourseStudents">
+        <PropertyRef Name="StId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Students_Departments">
+    <End Role="Departments" Type="DemoF23_CModel.Store.Departments" Multiplicity="1" />
+    <End Role="Students" Type="DemoF23_CModel.Store.Students" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Students">
+        <PropertyRef Name="DeptId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

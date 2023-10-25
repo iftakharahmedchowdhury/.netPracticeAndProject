@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ProductManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="CatagoryId" />
+          </Key>
+          <Property Name="CatagoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustomerUserName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustomerPassword" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustomerEmail" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustomerDob" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderMapTable">
+          <Key>
+            <PropertyRef Name="orderMapId" />
+          </Key>
+          <Property Name="orderMapId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Pid" Type="int" Nullable="false" />
+          <Property Name="Cusid" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="Productid" />
+          </Key>
+          <Property Name="Productid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductCount" Type="int" Nullable="false" />
+          <Property Name="ProductPrice" Type="float" Nullable="false" />
+          <Property Name="CatId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_OrderMapTable_Customer">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+          <End Role="OrderMapTable" Type="Self.OrderMapTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="OrderMapTable">
+              <PropertyRef Name="Cusid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderMapTable_Product">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="OrderMapTable" Type="Self.OrderMapTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Productid" />
+            </Principal>
+            <Dependent Role="OrderMapTable">
+              <PropertyRef Name="Pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Products_Products">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="Products" Type="Self.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CatagoryId" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="CatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProductManagementModelStoreContainer">
+          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderMapTable" EntityType="Self.OrderMapTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_OrderMapTable_Customer" Association="Self.FK_OrderMapTable_Customer">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="OrderMapTable" EntitySet="OrderMapTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderMapTable_Product" Association="Self.FK_OrderMapTable_Product">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="OrderMapTable" EntitySet="OrderMapTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Products_Products" Association="Self.FK_Products_Products">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProductManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CatagoryId" />
+          </Key>
+          <Property Name="CatagoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Products_Products" FromRole="Categories" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Productid" />
+          </Key>
+          <Property Name="Productid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ProductCount" Type="Int32" Nullable="false" />
+          <Property Name="ProductPrice" Type="Double" Nullable="false" />
+          <Property Name="CatId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_Products_Products" FromRole="Products" ToRole="Categories" />
+          <NavigationProperty Name="OrderMapTables" Relationship="ProductManagementModel.FK_OrderMapTable_Product" FromRole="Product" ToRole="OrderMapTable" />
+        </EntityType>
+        <Association Name="FK_Products_Products">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="Products" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CatagoryId" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="CatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ProductManagementEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <AssociationSet Name="FK_Products_Products" Association="Self.FK_Products_Products">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <EntitySet Name="Customers" EntityType="ProductManagementModel.Customer" />
+          <EntitySet Name="OrderMapTables" EntityType="ProductManagementModel.OrderMapTable" />
+          <AssociationSet Name="FK_OrderMapTable_Customer" Association="ProductManagementModel.FK_OrderMapTable_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="OrderMapTable" EntitySet="OrderMapTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderMapTable_Product" Association="ProductManagementModel.FK_OrderMapTable_Product">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="OrderMapTable" EntitySet="OrderMapTables" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerUserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerPassword" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerDob" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="OrderMapTables" Relationship="ProductManagementModel.FK_OrderMapTable_Customer" FromRole="Customer" ToRole="OrderMapTable" />
+        </EntityType>
+        <EntityType Name="OrderMapTable">
+          <Key>
+            <PropertyRef Name="orderMapId" />
+          </Key>
+          <Property Name="orderMapId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Pid" Type="Int32" Nullable="false" />
+          <Property Name="Cusid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="ProductManagementModel.FK_OrderMapTable_Customer" FromRole="OrderMapTable" ToRole="Customer" />
+          <NavigationProperty Name="Product" Relationship="ProductManagementModel.FK_OrderMapTable_Product" FromRole="OrderMapTable" ToRole="Product" />
+          <Property Name="Quantity" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_OrderMapTable_Customer">
+          <End Type="ProductManagementModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="ProductManagementModel.OrderMapTable" Role="OrderMapTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="OrderMapTable">
+              <PropertyRef Name="Cusid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderMapTable_Product">
+          <End Type="ProductManagementModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="ProductManagementModel.OrderMapTable" Role="OrderMapTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Productid" />
+            </Principal>
+            <Dependent Role="OrderMapTable">
+              <PropertyRef Name="Pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProductManagementModelStoreContainer" CdmEntityContainer="ProductManagementEntities1">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="ProductManagementModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="CatagoryId" ColumnName="CatagoryId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="ProductManagementModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="Productid" ColumnName="Productid" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductCount" ColumnName="ProductCount" />
+                <ScalarProperty Name="ProductPrice" ColumnName="ProductPrice" />
+                <ScalarProperty Name="CatId" ColumnName="CatId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="ProductManagementModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="CustomerDob" ColumnName="CustomerDob" />
+                <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
+                <ScalarProperty Name="CustomerPassword" ColumnName="CustomerPassword" />
+                <ScalarProperty Name="CustomerUserName" ColumnName="CustomerUserName" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderMapTables">
+            <EntityTypeMapping TypeName="ProductManagementModel.OrderMapTable">
+              <MappingFragment StoreEntitySet="OrderMapTable">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Cusid" ColumnName="Cusid" />
+                <ScalarProperty Name="Pid" ColumnName="Pid" />
+                <ScalarProperty Name="orderMapId" ColumnName="orderMapId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

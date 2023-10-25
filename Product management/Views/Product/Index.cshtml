@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Product_management.EF.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CatId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductCount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CatId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Productid }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Productid }) |
+      @*      @Html.ActionLink("Delete", "Delete", new { id = item.Productid })*@
+            @Html.ActionLink("Delete", "Delete", new { id = item.Productid }, new { onclick = "return confirm('Please confirm to delete product id " + item.Productid + " and name " + item.ProductName + "');" })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "e2919d25-0092-40d7-98b8-3d35846226c9": {
+      "ProjectGuid": "e2919d25-0092-40d7-98b8-3d35846226c9",
+      "DisplayName": "Product management",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

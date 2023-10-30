@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'E:\AIUB STUDY\11th semeser\adv. dot net\mid\class task\lab6\Product management - Copy\EF\Model1.edmx'. 
+﻿// T4 code generation is enabled for model 'E:\AIUB STUDY\11th semeser\adv. dot net\mid\class task\lab7\updated2\Product management\EF\Model1.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

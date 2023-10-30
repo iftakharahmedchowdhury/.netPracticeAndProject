@@ -13,10 +13,10 @@ namespace Product_management.EF
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ProductManagementEntities1 : DbContext
+    public partial class ProductManagementDbEntities : DbContext
     {
-        public ProductManagementEntities1()
-            : base("name=ProductManagementEntities1")
+        public ProductManagementDbEntities()
+            : base("name=ProductManagementDbEntities")
         {
         }
     
@@ -26,8 +26,9 @@ namespace Product_management.EF
         }
     
         public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<OrderMapTable> OrderMapTables { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

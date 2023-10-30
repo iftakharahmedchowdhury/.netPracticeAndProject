@@ -12,7 +12,7 @@ namespace Product_management.Controllers
     
         public ActionResult Index()
         {
-            var db = new ProductManagementEntities1();
+            var db = new ProductManagementDbEntities();
             var data = db.Products.ToList();
             return View(data);
         }
@@ -26,7 +26,7 @@ namespace Product_management.Controllers
         [HttpPost]
         public ActionResult Create(Product c)
         {
-            var db = new ProductManagementEntities1();
+            var db = new ProductManagementDbEntities();
             db.Products.Add(c);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -35,7 +35,7 @@ namespace Product_management.Controllers
 
         public ActionResult Delete(int id)
         {
-            var db = new ProductManagementEntities1();
+            var db = new ProductManagementDbEntities();
             var data = db.Products.Find(id);
             db.Products.Remove(data);
             db.SaveChanges();
@@ -45,7 +45,7 @@ namespace Product_management.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var db = new ProductManagementEntities1();
+            var db = new ProductManagementDbEntities();
             var ex = (from c in db.Products
                      where c.Productid == id
                      select c).SingleOrDefault();
@@ -55,7 +55,7 @@ namespace Product_management.Controllers
         [HttpPost]
         public ActionResult Edit(Product product)
         {
-            var db = new ProductManagementEntities1();
+            var db = new ProductManagementDbEntities();
             var data = db.Products.Find(product.Productid);
             data.ProductName= product.ProductName;
             data.ProductCount= product.ProductCount;
@@ -68,7 +68,7 @@ namespace Product_management.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            var db = new ProductManagementEntities1();
+            var db = new ProductManagementDbEntities();
             var productInfo = db.Products.Find(id);
             return View(productInfo);
 

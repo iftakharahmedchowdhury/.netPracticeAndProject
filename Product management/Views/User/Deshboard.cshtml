@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Product_management.EF.Product>
+
+<p>
+    @Html.ActionLink("Logout", "Logout")
+    @Html.ActionLink("View Cart", "ViewCart")
+
+</p>
+
+<a href="@Url.Action("Deshboard", "User")">
+    <button>Show Product</button>
+</a>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductCount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Category.CategoryName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+
+
+            @using (Html.BeginForm("AddToCart", "User", FormMethod.Post))
+            {
+                var userInfoCookie = Request.Cookies["UserInfo"];
+                string customerId = userInfoCookie?["UserId"];
+                <td>
+
+                    @Html.Hidden("ProductId", item.Productid)
+                    @Html.Hidden("ProductName", item.ProductName)
+                    @Html.Hidden("ProductPrice", item.ProductPrice)
+                    @Html.Hidden("Status", "Ordered")
+                    @Html.Hidden("CustomerId", customerId)
+                    @Html.Hidden("OrderDate", DateTime.Now.ToString("yyyy-MM-dd")) <!-- Set the OrderDate to today's date -->
+
+                    <input type="number" class="quantity-input" name="quantity" min="1" value="1">
+                    <input type="submit" class="add-to-cart-link" value="Add to Cart quantity">
+                </td>
+            }
+
+
+        </tr>
+    }
+
+</table>
+
+
+

@@ -12,21 +12,20 @@ namespace Product_management.EF
     using System;
     using System.Collections.Generic;
     
-    public partial class Product
+    public partial class OrderDetail
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Product()
+        public OrderDetail()
         {
             this.OrderMapTables = new HashSet<OrderMapTable>();
         }
     
-        public int Productid { get; set; }
-        public string ProductName { get; set; }
-        public int ProductCount { get; set; }
-        public double ProductPrice { get; set; }
-        public int CatId { get; set; }
+        public int OrderId { get; set; }
+        public string OrderStatus { get; set; }
+        public int CusId { get; set; }
+        public System.DateTime OrderDate { get; set; }
     
-        public virtual Category Category { get; set; }
+        public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderMapTable> OrderMapTables { get; set; }
     }

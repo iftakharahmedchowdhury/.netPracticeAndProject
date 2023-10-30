@@ -4,14 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f1424e6b37564538b855edbcc30d0d9f" Name="Diagram1">
-        <EntityTypeShape EntityType="ProductManagementModel.Category" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProductManagementModel.Product" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
-        <AssociationConnector Association="ProductManagementModel.FK_Products_Products" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="ProductManagementModel.Customer" Width="1.5" PointX="3" PointY="4.75" />
-        <EntityTypeShape EntityType="ProductManagementModel.OrderMapTable" Width="1.5" PointX="5.25" PointY="1.125" />
-        <AssociationConnector Association="ProductManagementModel.FK_OrderMapTable_Customer" />
-        <AssociationConnector Association="ProductManagementModel.FK_OrderMapTable_Product" />
+      <Diagram DiagramId="a5c9f17b689c499da74d173fbaf19b36" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="ProductManagementDbModel.Category" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProductManagementDbModel.OrderDetail" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProductManagementDbModel.OrderMapTable" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProductManagementDbModel.Product" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProductManagementDbModel.User" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="ProductManagementDbModel.FK_Products_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="ProductManagementDbModel.FK_OrderDetails_User" ManuallyRouted="false" />
+        <AssociationConnector Association="ProductManagementDbModel.FK_OrderMapTable_OrderDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="ProductManagementDbModel.FK_OrderMapTable_Product" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

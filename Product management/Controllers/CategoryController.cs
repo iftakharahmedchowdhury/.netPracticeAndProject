@@ -10,33 +10,38 @@ namespace Product_management.Controllers
     public class CategoryController : Controller
     {
         
+        
         public ActionResult Index()
         {
-            var db = new ProductManagementEntities1();
-            var data = db.Categories.ToList();
-            return View(data);
+            if (Request.Cookies["AdminInfo"] != null)
+            {
+                var db = new ProductManagementDbEntities();
+                var data = db.Categories.ToList();
+                return View(data);
+            }
+            return RedirectToAction("Index", "User");
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-           
+
             return View();
         }
 
         [HttpPost]
         public ActionResult Create(Category c)
         {
-            var db = new ProductManagementEntities1();
+            var db = new ProductManagementDbEntities();
             db.Categories.Add(c);
             db.SaveChanges();
             return RedirectToAction("Index");
 
         }
-      
+
         public ActionResult Delete(int p)
         {
-            var db = new ProductManagementEntities1();
+            var db = new ProductManagementDbEntities();
             var data = db.Categories.Find(p);
             db.Categories.Remove(data);
             db.SaveChanges();
@@ -45,7 +50,7 @@ namespace Product_management.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var db = new ProductManagementEntities1();
+            var db = new ProductManagementDbEntities();
             var ex = (from ed in db.Categories
                       where ed.CatagoryId == id
                       select ed).SingleOrDefault();
@@ -56,7 +61,7 @@ namespace Product_management.Controllers
         [HttpPost]
         public ActionResult Edit(Category catagory)
         {
-            var db = new ProductManagementEntities1();
+            var db = new ProductManagementDbEntities();
             var exdata = db.Categories.Find(catagory.CatagoryId);
             exdata.CategoryName = catagory.CategoryName;
 
@@ -69,11 +74,13 @@ namespace Product_management.Controllers
         [HttpGet]
         public ActionResult Details(int id)
         {
-            var db = new ProductManagementEntities1();
+            var db = new ProductManagementDbEntities();
             var categoryInfo = db.Categories.Find(id);
             return View(categoryInfo);
 
         }
+
+    
 
     }
 }

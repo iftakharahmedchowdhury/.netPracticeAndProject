@@ -1,0 +1,37 @@
+﻿@model Product_management.EF.User
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4>User login</h4>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h2>Login</h2>
+    @using (Html.BeginForm("Index", "User", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div>
+            @Html.LabelFor(model => model.UserUserName)
+            @Html.TextBoxFor(model => model.UserUserName)
+        </div>
+        <div>
+            @Html.LabelFor(model => model.UserPassword)
+            @Html.PasswordFor(model => model.UserPassword)
+        </div>
+        <div>
+            <input type="submit" value="Login" />
+        </div>
+    }
+ 
+<div>
+    @Html.ActionLink("Sign Up", "SignUp", null, new { @class = "btn btn-success" })
+</div>
+
+</body>
+</html>

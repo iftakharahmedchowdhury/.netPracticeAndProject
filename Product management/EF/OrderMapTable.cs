@@ -15,11 +15,12 @@ namespace Product_management.EF
     public partial class OrderMapTable
     {
         public int orderMapId { get; set; }
+        public int Odid { get; set; }
         public int Pid { get; set; }
-        public int Cusid { get; set; }
-        public Nullable<int> Quantity { get; set; }
+        public double orderPrice { get; set; }
+        public int Quantity { get; set; }
     
-        public virtual Customer Customer { get; set; }
+        public virtual OrderDetail OrderDetail { get; set; }
         public virtual Product Product { get; set; }
     }
 }

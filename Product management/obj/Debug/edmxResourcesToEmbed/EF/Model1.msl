@@ -1,16 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="ProductManagementModelStoreContainer" CdmEntityContainer="ProductManagementEntities1">
+  <EntityContainerMapping StorageEntityContainer="ProductManagementDbModelStoreContainer" CdmEntityContainer="ProductManagementDbEntities">
     <EntitySetMapping Name="Categories">
-      <EntityTypeMapping TypeName="ProductManagementModel.Category">
+      <EntityTypeMapping TypeName="ProductManagementDbModel.Category">
         <MappingFragment StoreEntitySet="Categories">
           <ScalarProperty Name="CatagoryId" ColumnName="CatagoryId" />
           <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="OrderDetails">
+      <EntityTypeMapping TypeName="ProductManagementDbModel.OrderDetail">
+        <MappingFragment StoreEntitySet="OrderDetails">
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+          <ScalarProperty Name="CusId" ColumnName="CusId" />
+          <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderMapTables">
+      <EntityTypeMapping TypeName="ProductManagementDbModel.OrderMapTable">
+        <MappingFragment StoreEntitySet="OrderMapTable">
+          <ScalarProperty Name="orderMapId" ColumnName="orderMapId" />
+          <ScalarProperty Name="Odid" ColumnName="Odid" />
+          <ScalarProperty Name="Pid" ColumnName="Pid" />
+          <ScalarProperty Name="orderPrice" ColumnName="orderPrice" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Products">
-      <EntityTypeMapping TypeName="ProductManagementModel.Product">
+      <EntityTypeMapping TypeName="ProductManagementDbModel.Product">
         <MappingFragment StoreEntitySet="Products">
           <ScalarProperty Name="Productid" ColumnName="Productid" />
           <ScalarProperty Name="ProductName" ColumnName="ProductName" />
@@ -20,25 +41,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Customers">
-      <EntityTypeMapping TypeName="ProductManagementModel.Customer">
-        <MappingFragment StoreEntitySet="Customers">
-          <ScalarProperty Name="CustomerDob" ColumnName="CustomerDob" />
-          <ScalarProperty Name="CustomerEmail" ColumnName="CustomerEmail" />
-          <ScalarProperty Name="CustomerPassword" ColumnName="CustomerPassword" />
-          <ScalarProperty Name="CustomerUserName" ColumnName="CustomerUserName" />
-          <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
-          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="OrderMapTables">
-      <EntityTypeMapping TypeName="ProductManagementModel.OrderMapTable">
-        <MappingFragment StoreEntitySet="OrderMapTable">
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-          <ScalarProperty Name="Cusid" ColumnName="Cusid" />
-          <ScalarProperty Name="Pid" ColumnName="Pid" />
-          <ScalarProperty Name="orderMapId" ColumnName="orderMapId" />
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="ProductManagementDbModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserUserName" ColumnName="UserUserName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+          <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+          <ScalarProperty Name="UserDob" ColumnName="UserDob" />
+          <ScalarProperty Name="UserType" ColumnName="UserType" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Product_management.EF.OrderDetail>
+
+@Html.ActionLink("Logout", "LogoutAdmin", "User")
+
+<a href="/Category/index"> <button class="btn bg-info"> Category </button> </a>
+<a href="/Product/index"> <button class="btn bg-info"> Product </button> </a>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Order Id</th>
+        <th>Order Status</th>
+        <th>Customer Id</th>
+        <th>Order Date</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var order in Model)
+    {
+        <tr>
+            <td>@order.OrderId</td>
+            <td>@order.OrderStatus</td>
+            <td>@order.CusId</td>
+            <td>@order.OrderDate</td>
+
+            <td>
+                <a href="#" class="btn btn-info view-details" data-order-id="@order.OrderId">View Details</a>
+
+                <a href="/Admin/Process?orderId=@order.OrderId" class="btn btn-success process-button" data-order-status="@order.OrderStatus">Process</a>
+            </td>
+            <td>
+                <a href="/Admin/Decline?orderId=@order.OrderId" class="btn btn-danger decline-button" data-order-status="@order.OrderStatus">Decline</a>
+            </td>
+        </tr>
+    }
+</table>
+
+
+
+
+<!-- Modal for displaying order details -->
+<div class="modal" id="orderDetailsModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Order Details</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="orderDetailsContent">
+                <!-- Order details will be displayed here -->
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@*this script file used for view details*@
+<script>
+    $(document).ready(function () {
+        $('.view-details').on('click', function (event) {
+            event.preventDefault();
+
+            var orderId = $(this).data('order-id');
+
+            $.ajax({
+                url: '/Admin/GetOrderDetails?orderId=' + orderId,
+                type: 'GET',
+                success: function (data) {
+                    if (data && data !== "Order not found") {
+                        var details = "Customer Name: " + data.CustomerName + "<br>" +
+                            "Customer Email: " + data.CustomerEmail + "<br>" +
+                            "Ordered Products: <ul>";
+
+                        data.OrderedProducts.forEach(function (product) {
+                            details += "<li>" + product.ProductName + " - Quantity: " + product.Quantity + "</li>";
+                        });
+
+                        details += "</ul>";
+
+                        $('#orderDetailsContent').html(details);
+                        $('#orderDetailsModal').modal('show');
+                    } else {
+                        $('#orderDetailsContent').html('Order not found.');
+                        $('#orderDetailsModal').modal('show');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                    $('#orderDetailsContent').html('Failed to fetch order details.');
+                    $('#orderDetailsModal').modal('show');
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+@*this script file used for process and decline button disable*@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var processButtons = document.querySelectorAll(".process-button");
+        var declineButtons = document.querySelectorAll(".decline-button");
+
+        processButtons.forEach(function (button) {
+            if (button.dataset.orderStatus === "Processing" || button.dataset.orderStatus === "Decline") {
+                button.classList.add("disabled");
+                button.setAttribute("disabled", "true");
+            }
+        });
+
+        declineButtons.forEach(function (button) {
+            if (button.dataset.orderStatus === "Processing" || button.dataset.orderStatus === "Decline") {
+                button.classList.add("disabled");
+                button.setAttribute("disabled", "true");
+            }
+        });
+    });
+</script>
+
+
+
+
+

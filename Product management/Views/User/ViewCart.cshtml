@@ -1,0 +1,73 @@
+﻿
+@Html.ActionLink("Dash Board", "Deshboard")
+
+@if (ViewBag.ProductIdsInCart != null)
+{
+    <h2>Your Shopping Cart</h2>
+
+    <form method="post" action="@Url.Action("ConfirmOrder", "User")">
+    
+        @foreach (var item in ViewBag.ProductIdsInCart)
+        {
+            <input type="hidden" name="ProductId" value="@item.ProductId" />
+            <input type="hidden" name="ProductName" value="@item.ProductName" />
+            <input type="hidden" name="ProductQuantity" value="@item.ProductQuantity" />
+            <input type="hidden" name="ProductPrice" value="@item.ProductPrice" />
+            <input type="hidden" name="Status" value="@item.Status" />
+            <input type="hidden" name="CustomerId" value="@item.CustomerId" />
+            <input type="hidden" name="OrderDate" value="@item.OrderDate.ToString("yyyy-MM-dd")" />
+        }
+
+
+   
+
+        <input type="submit" value="Order Confirm" />
+    </form>
+
+        <table class="table">
+            <thead>
+                <tr>
+                   
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Customer ID</th>
+                    <th>Order Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    double totalPrice = 0; 
+                }
+                @foreach (var item in ViewBag.ProductIdsInCart)
+                {
+                    <tr>
+
+                        <td>@item.ProductId</td>
+                        <td>@item.ProductName</td>
+                        <td>@item.ProductQuantity</td>
+                        <td>@(item.ProductQuantity * item.ProductPrice)</td>
+                        <td>@item.Status</td>
+                        <td>@item.CustomerId</td>
+                        <td>@item.OrderDate.ToString("yyyy-MM-dd")</td>
+
+                    </tr>
+                    {
+                        totalPrice += item.ProductQuantity * item.ProductPrice; 
+                    }
+                }
+                <tr>
+                    <td>Total Price:</td>
+                    <td>@totalPrice</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>Your cart is empty.</p>
+    }
+
+

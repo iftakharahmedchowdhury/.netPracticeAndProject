@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="ProductManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="ProductManagementDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="Categories">
     <Key>
       <PropertyRef Name="CatagoryId" />
@@ -7,25 +7,24 @@
     <Property Name="CatagoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CategoryName" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
-  <EntityType Name="Customers">
+  <EntityType Name="OrderDetails">
     <Key>
-      <PropertyRef Name="CustomerId" />
+      <PropertyRef Name="OrderId" />
     </Key>
-    <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CustomerName" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="CustomerUserName" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="CustomerPassword" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="CustomerEmail" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="CustomerDob" Type="date" Nullable="false" />
+    <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderStatus" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CusId" Type="int" Nullable="false" />
+    <Property Name="OrderDate" Type="date" Nullable="false" />
   </EntityType>
   <EntityType Name="OrderMapTable">
     <Key>
       <PropertyRef Name="orderMapId" />
     </Key>
     <Property Name="orderMapId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Odid" Type="int" Nullable="false" />
     <Property Name="Pid" Type="int" Nullable="false" />
-    <Property Name="Cusid" Type="int" Nullable="false" />
-    <Property Name="Quantity" Type="int" />
+    <Property Name="orderPrice" Type="float" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Products">
     <Key>
@@ -37,15 +36,39 @@
     <Property Name="ProductPrice" Type="float" Nullable="false" />
     <Property Name="CatId" Type="int" Nullable="false" />
   </EntityType>
-  <Association Name="FK_OrderMapTable_Customer">
-    <End Role="Customers" Type="Self.Customers" Multiplicity="1" />
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserUserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserPassword" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserEmail" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UserDob" Type="date" Nullable="false" />
+    <Property Name="UserType" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_OrderDetails_User">
+    <End Role="Users" Type="Self.Users" Multiplicity="1" />
+    <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="OrderDetails">
+        <PropertyRef Name="CusId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderMapTable_OrderDetails">
+    <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="1" />
     <End Role="OrderMapTable" Type="Self.OrderMapTable" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Customers">
-        <PropertyRef Name="CustomerId" />
+      <Principal Role="OrderDetails">
+        <PropertyRef Name="OrderId" />
       </Principal>
       <Dependent Role="OrderMapTable">
-        <PropertyRef Name="Cusid" />
+        <PropertyRef Name="Odid" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -73,13 +96,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="ProductManagementModelStoreContainer">
+  <EntityContainer Name="ProductManagementDbModelStoreContainer">
     <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="OrderMapTable" EntityType="Self.OrderMapTable" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_OrderMapTable_Customer" Association="Self.FK_OrderMapTable_Customer">
-      <End Role="Customers" EntitySet="Customers" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_OrderDetails_User" Association="Self.FK_OrderDetails_User">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderMapTable_OrderDetails" Association="Self.FK_OrderMapTable_OrderDetails">
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
       <End Role="OrderMapTable" EntitySet="OrderMapTable" />
     </AssociationSet>
     <AssociationSet Name="FK_OrderMapTable_Product" Association="Self.FK_OrderMapTable_Product">
